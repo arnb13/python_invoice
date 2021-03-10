@@ -52,12 +52,11 @@ def api_invoice(request):
             filename, ext = str(file).split('.')
             f = fs.save(str(file), file)
             url = './' +  fs.url(f)
-    
             result = extract_data(url)
 
             inv = InvoiceModel()
             inv.company_name = result['issuer']
-            inv.file_location = url
+            inv.file_location = str(f)
             inv.invoice_info = result
             inv.save()
 
