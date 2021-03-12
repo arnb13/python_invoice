@@ -1,3 +1,4 @@
+import json
 from logging import exception
 from django.shortcuts import render
 from yaml import serialize
@@ -41,8 +42,6 @@ def api_get_one(request, id):
             return Response(content, status = status.HTTP_404_NOT_FOUND)
 
 
-
-
 @api_view(['POST'])
 def api_invoice(request):
     if request.method == 'POST':
@@ -51,7 +50,7 @@ def api_invoice(request):
             fs = FileSystemStorage()
             filename, ext = str(file).split('.')
             f = fs.save(str(file), file)
-            url = './' +  fs.url(f)
+            url = './' + fs.url(f)
             result = extract_data(url)
 
             inv = InvoiceModel()
@@ -61,9 +60,32 @@ def api_invoice(request):
             inv.save()
 
             serializer = InvoiceSerializerAll(inv)
-            return Response (serializer.data, status = status.HTTP_200_OK)
-        except:
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print('error')
+            print(e)
             content = {'error': 'data not found'}
-            return Response(content, status = status.HTTP_404_NOT_FOUND)
-        
-    
+            return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+def api_invoice_update(request):
+    if request.method == 'POST':
+        try:
+            body_unicode = request.body.decode('utf-8')
+            body = json.loads(body_unicode)
+            model = InvoiceModel()
+            model.company_name = body['company_name']
+            model.file_location = body['file_location']
+            model.id = body['id']
+            model.invoice_info = body['invoice_info']
+            model.save()
+
+            serializer = InvoiceSerializerAll(model)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            content = {'error': 'data not found'}
+            return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+
