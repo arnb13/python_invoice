@@ -1,3 +1,4 @@
+import json
 from logging import exception
 from django.shortcuts import render
 from yaml import serialize
@@ -41,8 +42,6 @@ def api_get_one(request, id):
             return Response(content, status = status.HTTP_404_NOT_FOUND)
 
 
-
-
 @api_view(['POST'])
 def api_invoice(request):
     if request.method == 'POST':
@@ -51,7 +50,7 @@ def api_invoice(request):
             fs = FileSystemStorage()
             filename, ext = str(file).split('.')
             f = fs.save(str(file), file)
-            url = './' +  fs.url(f)
+            url = './' + fs.url(f)
             result = extract_data(url)
 
             inv = InvoiceModel()
