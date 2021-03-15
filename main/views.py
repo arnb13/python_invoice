@@ -61,9 +61,29 @@ def api_invoice(request):
             inv.save()
 
             serializer = InvoiceSerializerAll(inv)
-            return Response (serializer.data, status = status.HTTP_200_OK)
-        except:
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print('error')
+            print(e)
             content = {'error': 'data not found'}
-            return Response(content, status = status.HTTP_404_NOT_FOUND)
-        
-    
+            return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['POST'])
+def api_invoice_update(request):
+    if request.method == 'POST':
+        try:
+            
+            inv = InvoiceModel.objects.get(id = request.data['id'])
+            inv.company_name = request.data['company_name']
+            inv.invoice_info = request.data['invoice_info']
+            inv.save()
+            serializer = InvoiceSerializerAll(inv)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+            
+        except Exception as e:
+            print(e)
+            content = {'error': 'data not found'}
+            return Response(content, status=status.HTTP_404_NOT_FOUND)
+
+
