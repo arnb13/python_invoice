@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from invoice2data import extract_data
+from invoice2data.extract.loader import read_templates
 from django.core.files.storage import FileSystemStorage
 
 
@@ -41,12 +42,14 @@ def api_get_one(request, id):
 def api_invoice(request):
     if request.method == 'POST':
         try:
+            templates = read_templates('.')
             file = request.FILES['pdf']
             fs = FileSystemStorage()
             filename, ext = str(file).split('.')
             f = fs.save(str(file), file)
             url = './' + fs.url(f)
-            result = extract_data(url)
+            
+            result = extract_data(url, templates= templates)
             result['date'] = result['date'].strftime('%d/%m/%Y')
 
             inv = InvoiceModel()

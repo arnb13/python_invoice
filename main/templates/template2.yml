@@ -1,0 +1,18 @@
+# -*- coding: utf-8 -*-
+issuer: Royal Mail Group Ltd
+fields:
+  amount: Total incl. VAT\s+£(\d+\.\d{1,2})
+  date: Invoice Date:\s+([A-Z][a-z]+\s+\d\d\,\s+\d{1,4}\s+\d\:\d\d\:\d\d\s+[A-Z]+)
+  vat: VAT amount\s+£(\d+.\d{1,2})
+  net: Net label cost\s+£(\d+.\d{1,2})
+  invoice_number: Invoice Number:\s+(\d{1,23})
+keywords:
+  - Royal Mail Group Ltd,
+options:
+  currency: EUR
+  date_formats:
+    - '%a %d, %Y %I:%M:%S %p'
+  languages:
+    - en
+  
+

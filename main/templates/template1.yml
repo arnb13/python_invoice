@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 issuer: Wavetel Limited
-keywords:
-- Wavetel Limited
-- 88-90 Goodmayes Road,
-- Goodmayes
-- Essex
-- IG3 9UU
 fields:
-  amount: ^Grand Total\s+\£\d+.\d\d$
-  date: ^Invoice Date:\s+(\d{1,2}-\d{1,2}-\d{2,4})$
-  due_date: ^Due Date:\s+(\d{1,2}-\d{1,2}-\d{2,4})$
-  invoice_number: ^Invoice No:\s+[A-Z]+-\d{3}+\s\d{5}$
+  amount: Grand Total\s+\£\d+.\d\d
+  date: Invoice Date:\s+(\d{1,2}-\d{1,2}-\d{2,4})
+  due_date: Due Date:\s+(\d{1,2}-\d{1,2}-\d{2,4})
+  invoice_number: Invoice No:\s+[A-Z]+-\d{3}+\s\d{5}
+keywords:
+  - Wavetel Limited
+options:
+  remove_whitespace: false
+  currency: EUR
+  date_formats:
+    - '%d-%m-%Y'
+  languages:
+    - en
+  
+
