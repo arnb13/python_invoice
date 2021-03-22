@@ -47,6 +47,7 @@ def api_invoice(request):
             f = fs.save(str(file), file)
             url = './' + fs.url(f)
             result = extract_data(url)
+            result['date'] = result['date'].strftime('%d/%m/%Y')
 
             inv = InvoiceModel()
             inv.company_name = result['issuer']
